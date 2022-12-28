@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="fasterxml.jackson.dataformat.yaml" type="repository">
+    <properties maven-id="com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.1" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jackson-dataformat-yaml-2.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.14.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/snakeyaml-1.33.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.14.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
