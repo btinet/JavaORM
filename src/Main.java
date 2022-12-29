@@ -1,3 +1,4 @@
+import entity.Antrag;
 import entity.Kollegiat;
 import repository.GenericRepository;
 
@@ -19,24 +20,41 @@ public class Main {
         GenericRepository repository = new GenericRepository(true);
 
         /*
-         * Erstelle eine Instanz der Klasse Kollegiat und setze Attribute mit Werten aus Datensatz mit KID = 2;
+         * Entität für die kommenden Abfragen setzen.
          */
-        Kollegiat person = (Kollegiat) repository.setEntity(new Kollegiat()).find("KID",4);
+        repository.setEntity(new Kollegiat());
+
+        /*
+         * Erstelle eine Instanz der Klasse Kollegiat und setze Attribute mit Werten aus Datensatz mit KID = 2.
+         * Das Setzen der Entität kann auch inline erfolgen insofern vorher eine andere Entität verwendet wurde:
+         * Kollegiat person = (Kollegiat) repository.setEntity(new Kollegiat()).find("KID",4);
+         */
+        Kollegiat person = (Kollegiat) repository.find(4,"KID");
 
         /*
          * Neue HashMap 'condition' erzeugen.
          */
         HashMap<String, String> condition = new HashMap<>();
+        HashMap<String, String> antragCondition = new HashMap<>();
 
         /*
          * Bedingungen hinzufügen => ...WHERE Vorname = "felix"...
          */
         condition.put("Vorname","felix");
 
+
         /*
          * Eine Person in der Tabelle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
          */
-        Kollegiat person2 = (Kollegiat) repository.setEntity(new Kollegiat()).findOneBy(condition);
+        Kollegiat person2 = (Kollegiat) repository.findOneBy(condition);
+
+        repository.setEntity(new Antrag());
+
+        /*
+         * Finde einen Antrag, der von person2 erstellt wurde.
+         */
+        antragCondition.put("KID",Integer.toString(person2.getKID()));
+        Antrag antrag = (Antrag) repository.findOneBy(antragCondition);
 
         /*
          * Attribute der Instanz in Konsole ausgeben.
@@ -56,6 +74,15 @@ public class Main {
         System.out.println("Name: " + person2.getVorname() + " " + person2.getName());
         System.out.println("TutorID: " + person2.getTutorID());
         System.out.println("BetreuerID: " + person2.getBetreuerID());
+        System.out.println("============\n");
+
+        System.out.println("Class: " + antrag.getClass().getSimpleName());
+        System.out.println("============");
+        System.out.println("ID: " + antrag.getAID());
+        System.out.println("Einzelprüfung: " + antrag.getAlsEinzelprüfung());
+        System.out.println("Genehmigt am: " + antrag.getGenehmigtAm());
+        System.out.println("TutorID: " + antrag.getTID());
+        System.out.println("KollegiatID: " + antrag.getKID());
         System.out.println("============\n");
     }
 

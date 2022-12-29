@@ -47,7 +47,7 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
         return this.doFind(id, "id");
     }
 
-    public AbstractEntity find(String field, int id){
+    public AbstractEntity find(int id,String field){
         return this.doFind(id, field);
     }
 
