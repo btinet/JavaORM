@@ -7,7 +7,7 @@ import java.util.Map;
 
 public abstract class AbstractRepositoryFactory extends AbstractModel implements RepositoryFactoryInterface
 {
-    protected AbstractEntity entity;
+    protected Class<? extends AbstractEntity> entity;
 
     protected Boolean naturalCase = false;
 
@@ -22,9 +22,9 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
         }
     }
 
-    public AbstractRepositoryFactory setEntity(AbstractEntity entity){
-            this.entity = entity;
-            return this;
+    public AbstractRepositoryFactory setEntity(Class<? extends AbstractEntity> entity){
+        this.entity =  entity;
+        return this;
     }
 
     public AbstractRepositoryFactory setUcFirst()
@@ -40,7 +40,13 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
 
     protected QueryBuilder createQueryBuilder()
     {
-        return this.queryBuilder = new QueryBuilder(this.connection, this.naturalCase,this.ucFirst,this.entity,this.alias);
+        try {
+            AbstractEntity instance = this.entity.getConstructor().newInstance();
+            return this.queryBuilder = new QueryBuilder(this.connection, this.naturalCase,this.ucFirst,instance,this.alias);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public AbstractEntity find(int id){

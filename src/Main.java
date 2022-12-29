@@ -22,7 +22,7 @@ public class Main {
         /*
          * Entität für die kommenden Abfragen setzen.
          */
-        repository.setEntity(new Kollegiat());
+        repository.setEntity(Kollegiat.class);
 
         /*
          * Erstelle eine Instanz der Klasse Kollegiat und setze Attribute mit Werten aus Datensatz mit KID = 2.
@@ -48,7 +48,7 @@ public class Main {
          */
         Kollegiat person2 = (Kollegiat) repository.findOneBy(condition);
 
-        repository.setEntity(new Antrag());
+        repository.setEntity(Antrag.class);
 
         /*
          * Finde einen Antrag, der von person2 erstellt wurde.
@@ -74,16 +74,15 @@ public class Main {
         System.out.println("Name: " + person2.getVorname() + " " + person2.getName());
         System.out.println("TutorID: " + person2.getTutorID());
         System.out.println("BetreuerID: " + person2.getBetreuerID());
-        System.out.println("============\n");
-
-        System.out.println("Class: " + antrag.getClass().getSimpleName());
-        System.out.println("============");
-        System.out.println("ID: " + antrag.getAID());
+        System.out.println("------------");
+        System.out.println("AntragID: " + antrag.getAID());
         System.out.println("Einzelprüfung: " + antrag.getAlsEinzelprüfung());
         System.out.println("Genehmigt am: " + antrag.getGenehmigtAm());
         System.out.println("TutorID: " + antrag.getTID());
         System.out.println("KollegiatID: " + antrag.getKID());
         System.out.println("============\n");
+
+
     }
 
 }
