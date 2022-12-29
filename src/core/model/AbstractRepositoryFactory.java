@@ -2,6 +2,8 @@ package core.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractRepositoryFactory implements RepositoryFactoryInterface
 {
@@ -46,6 +48,35 @@ public abstract class AbstractRepositoryFactory implements RepositoryFactoryInte
 
     public AbstractEntity find(String field, int id){
         return this.doFind(id, field);
+    }
+
+    public AbstractEntity findOneBy(HashMap<String, String> condition){
+        try {
+            try {
+                QueryBuilder query = this.createQueryBuilder()
+                        .selectOrm()
+                        ;
+                int i = 1;
+                for (Map.Entry<String, String> entry : condition.entrySet()){
+                    if ("null".equals(entry.getValue())) {
+                        query.andWhere(entry.getKey() + " IS NULL");
+                    } else {
+                        query.andWhere(entry.getKey() + " = ?");
+                        query.setParameter(i, entry.getValue());
+                        i++;
+                    }
+                }
+                return query.getQuery()
+                        .getOnOrNullResult()
+                ;
+
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected AbstractEntity doFind(int id, String field){
