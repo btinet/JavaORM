@@ -34,7 +34,7 @@ public class Main {
         condition.put("Vorname","felix");
 
         /*
-         * Eine Person aus der Tablle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
+         * Eine Person in der Tabelle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
          */
         Kollegiat person2 = (Kollegiat) repository.setEntity(new Kollegiat()).findOneBy(condition);
 
