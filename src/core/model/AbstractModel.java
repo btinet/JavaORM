@@ -16,11 +16,10 @@ public class AbstractModel {
 
     AbstractModel()
     {
-        ConfigReader $reader = new ConfigReader();
         this.dbConfig = new ConfigReader().ConfigReader().getDatabase();
     }
 
-    public Connection getConnection(){
+    protected Connection getConnection(){
 
         Connection conn = null;
         Properties connectionProps = new Properties();
@@ -32,7 +31,8 @@ public class AbstractModel {
                 conn = DriverManager.getConnection(
                         "jdbc:" + this.dbConfig.getDriver() + "://" +
                                 this.dbConfig.getHost() +
-                                ":" + this.dbConfig.getPort() + "/",
+                                ":" + this.dbConfig.getPort() + "/" +
+                                this.dbConfig.getDbname(),
                         connectionProps);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -48,9 +48,9 @@ public class AbstractModel {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("Connected to database");
-        this.connection = conn;
-        return this.connection;
+        System.out.println("Mit Datenbank '" + this.dbConfig.getDbname() + "' auf '" + this.dbConfig.getHost() + "' verbunden.");
+
+        return this.connection = conn;
     }
 
 }
