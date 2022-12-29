@@ -17,7 +17,6 @@ public class ConfigReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Application config info " + config.toString());
         return config;
     }
 

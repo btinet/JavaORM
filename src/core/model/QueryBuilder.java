@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class QueryBuilder extends AbstractModel {
+public class QueryBuilder {
 
+    private Connection connection;
     private PreparedStatement statement;
     private AbstractEntity entity;
 
@@ -30,9 +32,8 @@ public class QueryBuilder extends AbstractModel {
     private HashMap<Integer, Integer> integerParameters = new HashMap<>();
 
 
-    public QueryBuilder (Boolean naturalCase, Boolean ucFirst, AbstractEntity entity, @Nullable String alias) {
-        super();
-        this.getConnection();
+    public QueryBuilder (Connection connection, Boolean naturalCase, Boolean ucFirst, AbstractEntity entity, @Nullable String alias) {
+        this.connection = connection;
         this.entity = entity;
         this.naturalCase = naturalCase;
         this.ucFirst = ucFirst;
@@ -149,7 +150,7 @@ public class QueryBuilder extends AbstractModel {
                 }
             }
         }
-        System.out.println("Query: " + this.query + "\n");
+        System.out.println("Query: " + this.query);
         return this;
     }
 

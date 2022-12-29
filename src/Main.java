@@ -31,7 +31,7 @@ public class Main {
         /*
          * Bedingungen hinzufügen => ...WHERE Vorname = "felix"...
          */
-        condition.put("vorname","felix");
+        condition.put("Vorname","felix");
 
         /*
          * Eine Person aus der Tablle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
@@ -41,6 +41,7 @@ public class Main {
         /*
          * Attribute der Instanz in Konsole ausgeben.
          */
+        System.out.println();
         System.out.println("Class: " + person.getClass().getSimpleName());
         System.out.println("============");
         System.out.println("ID: " + person.getKID());

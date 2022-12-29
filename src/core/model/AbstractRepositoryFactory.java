@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractRepositoryFactory implements RepositoryFactoryInterface
+public abstract class AbstractRepositoryFactory extends AbstractModel implements RepositoryFactoryInterface
 {
     protected AbstractEntity entity;
 
@@ -18,6 +18,7 @@ public abstract class AbstractRepositoryFactory implements RepositoryFactoryInte
     public AbstractRepositoryFactory(Boolean naturalCase){
         if(naturalCase){
             this.naturalCase = naturalCase;
+            this.getConnection();
         }
     }
 
@@ -39,7 +40,7 @@ public abstract class AbstractRepositoryFactory implements RepositoryFactoryInte
 
     protected QueryBuilder createQueryBuilder()
     {
-        return this.queryBuilder = new QueryBuilder(this.naturalCase,this.ucFirst,this.entity,this.alias);
+        return this.queryBuilder = new QueryBuilder(this.connection, this.naturalCase,this.ucFirst,this.entity,this.alias);
     }
 
     public AbstractEntity find(int id){
