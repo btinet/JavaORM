@@ -1,5 +1,7 @@
 package core.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -15,7 +17,7 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
     protected String alias;
     protected QueryBuilder queryBuilder;
 
-    public AbstractRepositoryFactory(Boolean naturalCase){
+    public AbstractRepositoryFactory(@NotNull Boolean naturalCase){
         if(naturalCase){
             this.naturalCase = naturalCase;
             this.getConnection();

@@ -14,10 +14,6 @@ public class Kollegiat extends AbstractEntity {
         return KID;
     }
 
-    public void setKID(int KID) {
-        this.KID = KID;
-    }
-
     public String getName() {
         return Name;
     }

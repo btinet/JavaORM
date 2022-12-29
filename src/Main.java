@@ -20,13 +20,13 @@ public class Main {
         GenericRepository repository = new GenericRepository(true);
 
         /*
-         * Entität für die kommenden Abfragen setzen.
+         * Entitätsmenge für die kommenden Abfragen setzen. (Klasse muss von AbstractEntity erben)
          */
         repository.setEntity(Kollegiat.class);
 
         /*
          * Erstelle eine Instanz der Klasse Kollegiat und setze Attribute mit Werten aus Datensatz mit KID = 2.
-         * Das Setzen der Entität kann auch inline erfolgen insofern vorher eine andere Entität verwendet wurde:
+         * Das Setzen der Entitätsmenge kann auch inline erfolgen insofern vorher eine andere Entität verwendet wurde:
          * Kollegiat person = (Kollegiat) repository.setEntity(new Kollegiat()).find("KID",4);
          */
         Kollegiat person = (Kollegiat) repository.find(4,"KID");
@@ -35,24 +35,24 @@ public class Main {
          * Neue HashMap 'condition' erzeugen.
          */
         HashMap<String, String> condition = new HashMap<>();
-        HashMap<String, String> antragCondition = new HashMap<>();
-
         /*
          * Bedingungen hinzufügen => ...WHERE Vorname = "felix"...
          */
         condition.put("Vorname","felix");
-
-
         /*
          * Eine Person in der Tabelle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
          */
         Kollegiat person2 = (Kollegiat) repository.findOneBy(condition);
 
+        /*
+         * 'Antrag' als neue Entitätsmenge festlegen.
+         */
         repository.setEntity(Antrag.class);
 
         /*
          * Finde einen Antrag, der von person2 erstellt wurde.
          */
+        HashMap<String, String> antragCondition = new HashMap<>();
         antragCondition.put("KID",Integer.toString(person2.getKID()));
         Antrag antrag = (Antrag) repository.findOneBy(antragCondition);
 
