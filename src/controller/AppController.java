@@ -14,7 +14,7 @@ public class AppController extends AbstractController {
     public AppController(AppView view){
         super(true);
         this.view = view;
-        this.repository.setEntity(Fach.class).setAlias("f");
+        this.repository.setEntity(Fach.class);
     }
 
     public void index(ActionEvent e){
