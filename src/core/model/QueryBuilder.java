@@ -1,5 +1,6 @@
 package core.model;
 
+import core.globals.Database;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
@@ -131,7 +132,7 @@ public class QueryBuilder {
         }
 
         try {
-            this.statement = this.connection.prepareStatement(this.query.toString());
+            this.statement = Database.connection.prepareStatement(this.query.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -151,7 +152,7 @@ public class QueryBuilder {
                 }
             }
         }
-        // System.out.println("Query: " + this.query);
+        System.out.println("Query: " + this.query);
         return this;
     }
 

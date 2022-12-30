@@ -2,13 +2,16 @@ import entity.Antrag;
 import entity.Kollegiat;
 import entity.ThemaFach;
 import repository.GenericRepository;
+import view.AppView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
 
     public static void main(String[] args){
+        SwingUtilities.invokeLater(AppView::new);
 
         /*
          * Instanziere neues allgemeines Repository.
@@ -31,7 +34,7 @@ public class Main {
          * Das Setzen der Entitätsmenge kann auch inline erfolgen insofern vorher eine andere Entität verwendet wurde:
          * Kollegiat person = (Kollegiat) repository.setEntity(new Kollegiat()).find("KID",4);
          */
-        Kollegiat person = (Kollegiat) repository.find(4,"KID");
+
 
         /*
          * Neue HashMap 'condition' erzeugen.
@@ -41,6 +44,7 @@ public class Main {
          * Bedingungen hinzufügen => ...WHERE Vorname = "felix"...
          */
         condition.put("Vorname","felix");
+
         /*
          * Eine Person in der Tabelle 'Kollegiat' suchen, die mit Vornamen 'Felix' heißt.
          */
@@ -108,14 +112,7 @@ public class Main {
         /*
          * Attribute der Instanz in Konsole ausgeben.
          */
-        System.out.println();
-        System.out.println("Class: " + person.getClass().getSimpleName());
-        System.out.println("============");
-        System.out.println("ID: " + person.getKID());
-        System.out.println("Name: " + person.getVorname() + " " + person.getName());
-        System.out.println("TutorID: " + person.getTutorID());
-        System.out.println("BetreuerID: " + person.getBetreuerID());
-        System.out.println("============\n");
+
 
         System.out.println("Class: " + person2.getClass().getSimpleName());
         System.out.println("============");
