@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class QueryBuilder {
 
     private Connection connection;
     private PreparedStatement statement;
-    private AbstractEntity entity;
+    private Class<? extends AbstractEntity> entity;
 
     private Boolean naturalCase;
     private Boolean ucFirst;
@@ -32,7 +33,7 @@ public class QueryBuilder {
     private HashMap<Integer, Integer> integerParameters = new HashMap<>();
 
 
-    public QueryBuilder (Connection connection, Boolean naturalCase, Boolean ucFirst, AbstractEntity entity, @Nullable String alias) {
+    public QueryBuilder (Connection connection, Boolean naturalCase, Boolean ucFirst, Class<? extends AbstractEntity> entity, @Nullable String alias) {
         this.connection = connection;
         this.entity = entity;
         this.naturalCase = naturalCase;
@@ -49,7 +50,7 @@ public class QueryBuilder {
         return string;
     }
     private String getColumns(){
-        Field[] fields = this.entity.getClass().getDeclaredFields();
+        Field[] fields = this.entity.getDeclaredFields();
         StringBuilder columnBuilder = new StringBuilder();
         int i = 1;
         for (Field field : fields) {
@@ -119,9 +120,9 @@ public class QueryBuilder {
         }
 
         if(this.naturalCase){
-            this.query.append(" FROM ").append(this.entity.getClass().getSimpleName());
+            this.query.append(" FROM ").append(this.entity.getSimpleName());
         } else {
-            this.query.append(" FROM ").append(this.generateSnakeTailString(this.entity.getClass().getSimpleName()));
+            this.query.append(" FROM ").append(this.generateSnakeTailString(this.entity.getSimpleName()));
         }
 
 
@@ -160,9 +161,14 @@ public class QueryBuilder {
         this.statement.executeQuery();
         ResultSet result = null;
         result = this.statement.getResultSet();
+
+        AbstractEntity object = null;
+
         while (result.next()) {
 
-            for (Field field : this.entity.getClass().getDeclaredFields()) {
+            object = this.entity.getConstructor().newInstance();
+
+            for (Field field : this.entity.getDeclaredFields()) {
                 if (field.getModifiers() == Modifier.PROTECTED) {
                     String fieldName = "";
                     if(!this.naturalCase){
@@ -173,17 +179,67 @@ public class QueryBuilder {
 
                     field.setAccessible(true);
                     if(field.getType().getSimpleName().equals("int")){
-                        field.set(this.entity, result.getInt(fieldName));
+                        field.set(object, result.getInt(fieldName));
+                    }
+                    if(field.getType().getSimpleName().equals("Integer")){
+                        field.set(object, result.getInt(fieldName));
                     }
                     if(field.getType().getSimpleName().equals("String")){
-                        field.set(this.entity, result.getString(fieldName));
+                        field.set(object, result.getString(fieldName));
+                    }
+                    if(field.getType().getSimpleName().equals("Boolean")){
+                        field.set(object, (1 == result.getInt(fieldName)));
                     }
                     field.setAccessible(false);
 
                 }
             }
         }
-        return this.entity;
+        return object;
      }
+
+    protected ArrayList<AbstractEntity> getResult() throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+        this.statement.executeQuery();
+        ResultSet result = null;
+        result = this.statement.getResultSet();
+        ArrayList<AbstractEntity> list = new ArrayList<>();
+
+        AbstractEntity object = null;
+
+        while (result.next()) {
+
+            object = this.entity.getConstructor().newInstance();
+
+            for (Field field : this.entity.getDeclaredFields()) {
+                if (field.getModifiers() == Modifier.PROTECTED) {
+                    String fieldName = "";
+                    if(!this.naturalCase){
+                        fieldName = this.generateSnakeTailString(field.getName());
+                    } else {
+                        fieldName = field.getName();
+                    }
+
+                    field.setAccessible(true);
+                    if(field.getType().getSimpleName().equals("int")){
+                        field.set(object, result.getInt(fieldName));
+                    }
+                    if(field.getType().getSimpleName().equals("Integer")){
+                        field.set(object, result.getInt(fieldName));
+                    }
+                    if(field.getType().getSimpleName().equals("String")){
+                        field.set(object, result.getString(fieldName));
+                    }
+                    if(field.getType().getSimpleName().equals("Boolean")){
+                        field.set(object, (1 == result.getInt(fieldName)));
+                    }
+                    field.setAccessible(false);
+
+                }
+            }
+            list.add(object);
+        }
+        return list;
+    }
 
 }

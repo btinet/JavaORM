@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,13 +43,7 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
 
     protected QueryBuilder createQueryBuilder()
     {
-        try {
-            AbstractEntity instance = this.entity.getConstructor().newInstance();
-            return this.queryBuilder = new QueryBuilder(this.connection, this.naturalCase,this.ucFirst,instance,this.alias);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-
+        return this.queryBuilder = new QueryBuilder(this.connection, this.naturalCase,this.ucFirst,this.entity,this.alias);
     }
 
     public AbstractEntity find(int id){
@@ -78,6 +73,35 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
                 return query.getQuery()
                         .getOnOrNullResult()
                 ;
+
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<? extends AbstractEntity> findBy(HashMap<String, String> condition){
+        try {
+            try {
+                QueryBuilder query = this.createQueryBuilder()
+                        .selectOrm()
+                        ;
+                int i = 1;
+                for (Map.Entry<String, String> entry : condition.entrySet()){
+                    if ("null".equals(entry.getValue())) {
+                        query.andWhere(entry.getKey() + " IS NULL");
+                    } else {
+                        query.andWhere(entry.getKey() + " = ?");
+                        query.setParameter(i, entry.getValue());
+                        i++;
+                    }
+                }
+                return query.getQuery()
+                        .getResult()
+                        ;
 
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                      IllegalAccessException e) {

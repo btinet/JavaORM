@@ -4,25 +4,25 @@ import core.model.AbstractEntity;
 
 public class Antrag extends AbstractEntity {
 
-    protected int AID;
-    protected int alsEinzelprüfung;
+    protected Integer AID;
+    protected Boolean alsEinzelprüfung;
     protected String genehmigtAm;
-    protected int TID;
-    protected int KID;
+    protected Integer TID;
+    protected Integer KID;
 
-    public int getAID() {
+    public Integer getAID() {
         return AID;
     }
 
-    public void setAID(int AID) {
+    public void setAID(Integer AID) {
         this.AID = AID;
     }
 
-    public int getAlsEinzelprüfung() {
+    public Boolean getAlsEinzelprüfung() {
         return alsEinzelprüfung;
     }
 
-    public void setAlsEinzelprüfung(int alsEinzelprüfung) {
+    public void setAlsEinzelprüfung(Boolean alsEinzelprüfung) {
         this.alsEinzelprüfung = alsEinzelprüfung;
     }
 
@@ -34,19 +34,19 @@ public class Antrag extends AbstractEntity {
         this.genehmigtAm = genehmigtAm;
     }
 
-    public int getTID() {
+    public Integer getTID() {
         return TID;
     }
 
-    public void setTID(int TID) {
+    public void setTID(Integer TID) {
         this.TID = TID;
     }
 
-    public int getKID() {
+    public Integer getKID() {
         return KID;
     }
 
-    public void setKID(int KID) {
+    public void setKID(Integer KID) {
         this.KID = KID;
     }
 }

@@ -4,13 +4,13 @@ import core.model.AbstractEntity;
 
 public class Kollegiat extends AbstractEntity {
 
-    protected int KID;
+    protected Integer KID;
     protected String Name;
     protected String Vorname;
-    protected int TutorID;
-    protected int BetreuerID;
+    protected Integer TutorID;
+    protected Integer BetreuerID;
 
-    public int getKID() {
+    public Integer getKID() {
         return KID;
     }
 
@@ -30,19 +30,19 @@ public class Kollegiat extends AbstractEntity {
         Vorname = vorname;
     }
 
-    public int getTutorID() {
+    public Integer getTutorID() {
         return TutorID;
     }
 
-    public void setTutorID(int tutorID) {
+    public void setTutorID(Integer tutorID) {
         TutorID = tutorID;
     }
 
-    public int getBetreuerID() {
+    public Integer getBetreuerID() {
         return BetreuerID;
     }
 
-    public void setBetreuerID(int betreuerID) {
+    public void setBetreuerID(Integer betreuerID) {
         BetreuerID = betreuerID;
     }
 }

@@ -48,8 +48,6 @@ public class AbstractModel {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("Mit Datenbank '" + this.dbConfig.getDbname() + "' auf '" + this.dbConfig.getHost() + "' verbunden.");
-
         return this.connection = conn;
     }
 
