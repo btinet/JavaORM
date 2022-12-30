@@ -79,21 +79,30 @@ public class Main {
             System.out.println(kollegiat.getVorname() + " " +kollegiat.getName());
         }
 
+        /*
+         * Finde alle Datensätze mit der ThemaID = 1:
+         */
         repository.setEntity(ThemaFach.class);
-
-        ThemaFach themaFach = (ThemaFach) repository.find(2,"TFID");
+        HashMap<String, String> tfCondition = new HashMap<>();
+        tfCondition.put("TID","2");
+        ArrayList<ThemaFach> themaFach = (ArrayList<ThemaFach>) repository.findBy(tfCondition);
 
         System.out.println();
-        System.out.println("Class: " + themaFach.getClass().getSimpleName());
         System.out.println("============");
-        System.out.println("TFID: " + themaFach.getTFID());
-        System.out.println("Thema: " + themaFach.getThema());
-        System.out.println("Fach: " + themaFach.getFach());
-        if(themaFach.getIstRefFach()){
-            System.out.println("Fach ist Referenzfach");
-        } else {
-            System.out.println("Fach ist Begleitfach");
+
+        for (ThemaFach tf : themaFach){
+            System.out.println("TFID: " + tf.getTFID());
+            System.out.println("Thema: " + tf.getThema());
+            System.out.println("Fach: " + tf.getFach());
+            if(tf.getIstRefFach()){
+                System.out.println("Fach ist Referenzfach");
+            } else {
+                System.out.println("Fach ist Begleitfach");
+            }
+            System.out.println();
         }
+        System.out.println("============");
+
 
 
         /*

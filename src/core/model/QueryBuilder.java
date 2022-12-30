@@ -151,7 +151,7 @@ public class QueryBuilder {
                 }
             }
         }
-        System.out.println("Query: " + this.query);
+        // System.out.println("Query: " + this.query);
         return this;
     }
 
