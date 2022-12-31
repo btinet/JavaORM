@@ -112,6 +112,24 @@ public abstract class AbstractRepositoryFactory extends AbstractModel implements
         }
     }
 
+    public ArrayList<? extends AbstractEntity> findAll(){
+        try {
+            try {
+                return this.createQueryBuilder()
+                        .selectOrm()
+                        .getQuery()
+                        .getResult()
+                        ;
+
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected AbstractEntity doFind(int id, String field){
         try {
             try {
