@@ -19,7 +19,7 @@ public class AppController extends AbstractController {
 
     public void index(ActionEvent e){
         repository.setEntity(Kollegiat.class);
-        Kollegiat person = (Kollegiat) repository.find(4,"KID");
+        Kollegiat person = (Kollegiat) repository.find(Integer.decode(e.getActionCommand()),"KID");
 
         System.out.println();
         System.out.println("Class: " + person.getClass().getSimpleName());
@@ -29,6 +29,8 @@ public class AppController extends AbstractController {
         System.out.println("TutorID: " + person.getTutorID());
         System.out.println("BetreuerID: " + person.getBetreuerID());
         System.out.println("============\n");
+
+        this.view.cardLayout.show(this.view.frame.getContentPane(), "One");
     }
 
     @Override

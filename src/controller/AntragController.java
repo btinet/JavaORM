@@ -4,6 +4,7 @@ import core.controller.AbstractController;
 import entity.Antrag;
 import repository.AntragRepository;
 import view.AppView;
+import view.card.CardList;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -21,9 +22,18 @@ public class AntragController extends AbstractController {
         ArrayList<Antrag> antragList = (ArrayList<Antrag>) repository.findAll();
 
         // TODO: für jeden Datensatz soll ein Button erstellt werden, der zur Methode 'show' führt.
-        for (Antrag antrag : antragList){
-            System.out.println(antrag.getAID() + " " + antrag.getTID() + " " + antrag.getKID() + " " + antrag.getGenehmigtAm());
+
+
+        CardList cardList = new CardList(this.view);
+        try {
+            cardList.setContent(antragList);
+        } catch (IllegalAccessException ex) {
+            throw new RuntimeException(ex);
         }
+
+        this.view.frame.add(cardList,"list");
+        this.view.cardLayout.show(this.view.frame.getContentPane(), "list");
+
 
     }
 
@@ -31,18 +41,16 @@ public class AntragController extends AbstractController {
         // Der auslösende Button enthält die id des gesuchten Datensatzes
         Antrag antrag = (Antrag) repository.find(Integer.decode(e.getActionCommand()),"AID");
         System.out.println(antrag.getAID() + " " + antrag.getTID() + " " + antrag.getKID() + " " + antrag.getGenehmigtAm());
+        this.view.setContent(antrag.getAID() + " " + antrag.getTID() + " " + antrag.getKID() + " " + antrag.getGenehmigtAm());
     }
 
-    public void update(ActionEvent e, Integer id){
-        Antrag antrag = (Antrag) repository.find(id);
+    public void update(ActionEvent e){
+        Antrag antrag = (Antrag) repository.find(Integer.parseInt(e.getActionCommand()));
     }
 
-    public void delete(ActionEvent e, Integer id){
-        Antrag antrag = (Antrag) repository.find(id);
+    public void delete(ActionEvent e){
+        Antrag antrag = (Antrag) repository.find(Integer.parseInt(e.getActionCommand()));
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
-    }
 }
